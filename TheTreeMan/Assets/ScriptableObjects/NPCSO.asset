@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d6a8c1ca6185d49aa3d0489ff9c27f, type: 3}
+  m_Name: NPCSO
+  m_EditorClassIdentifier: Assembly-CSharp::NPCSO
+  NPCList:
+  - {fileID: 3923215172849898388, guid: b5f6292b37686f6468ce92cc59cb0fe5, type: 3}
+  - {fileID: 3923215172849898388, guid: 67ac7fe1e074dd94996420f0eb3317fa, type: 3}
+  - {fileID: 3923215172849898388, guid: 5a9e58e19b9890d498960b4fd634498e, type: 3}
+  - {fileID: 3923215172849898388, guid: e611b9ad548764d4e85ea26e375184ce, type: 3}
+  - {fileID: 3923215172849898388, guid: b4a68d788c6bdc14ab2d6c153c255390, type: 3}
+  - {fileID: 4532118457427994801, guid: 3b16fed6095f27748acd403ce5572534, type: 3}
+  - {fileID: 3923215172849898388, guid: 05c9e1a500a38b6439f37dde13e4897f, type: 3}
+  - {fileID: 3923215172849898388, guid: 27f6e8fd58f653742bfe031b21c35da4, type: 3}
+  - {fileID: 3923215172849898388, guid: 3cde129cf8de5724d84e5f913871ef77, type: 3}
+  - {fileID: 3923215172849898388, guid: 52b17b0c8ccd96a4cb5ef9d82a62ba5e, type: 3}
