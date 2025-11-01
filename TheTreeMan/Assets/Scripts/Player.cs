@@ -161,13 +161,11 @@ public class Player : MonoBehaviour
             else
             {
                 //canSow = true;
-                Debug.Log("Can Sow");
             }
         }
         else
         {
             canPlough = true;
-            Debug.Log("No Base");
         }
 
         treeBases.Clear();

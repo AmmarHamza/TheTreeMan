@@ -13,35 +13,40 @@ public class NPC : MonoBehaviour
     private int currentStopPointIndex = 0;
     private bool toFinalDestination = false;
 
+    private Vector3 lightDirection;
+
+    [SerializeField] private HeatBarImage heatBarImage;
+    [SerializeField] private Canvas canvas;
+
+    private float arrivalRadius = 2f;
+
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        canvas.worldCamera = Camera.main;
+    }
+
+    private void Start()
+    {
+        heatBarImage.OnHeatBarFilled += HeatBarImage_OnHeatBarFilled;
+    }
+
+    private void HeatBarImage_OnHeatBarFilled(object sender, System.EventArgs e)
+    {
+        ResetNPC();
     }
 
     private void Update()
     {
-        if (destination != null)
+        HandleNPCMovement();
+        if(IsShaded())
         {
-            if(currentStopPointIndex < numberOfStopPoints)
-            {
-                agent.destination = stopPoints[currentStopPointIndex];
-                if (!toFinalDestination && Vector3.Distance(transform.position, stopPoints[currentStopPointIndex]) <= 2f)
-                {
-                    currentStopPointIndex++;
-                    if (currentStopPointIndex >= numberOfStopPoints)
-                    {
-                        agent.destination = destination;
-                        toFinalDestination = true;
-                    }
-                }
-            }
-            if (toFinalDestination && Vector3.Distance(transform.position, destination) <= 2f)
-            {
-                gameObject.SetActive(false);
-                NPCManager.npcCounter--;
-                currentStopPointIndex = 0;
-                toFinalDestination = false;
-            }
+            heatBarImage.DrainHeatBar();
+        }
+        else
+        {
+            heatBarImage.FillHeatBar();
         }
     }
 
@@ -60,4 +65,52 @@ public class NPC : MonoBehaviour
         return numberOfStopPoints;
     }
 
+    private void HandleNPCMovement()
+    {
+        if (destination != null)
+        {
+            if (currentStopPointIndex < numberOfStopPoints)
+            {
+                agent.destination = stopPoints[currentStopPointIndex];
+                if (!toFinalDestination && Vector3.Distance(transform.position, stopPoints[currentStopPointIndex]) <= arrivalRadius)
+                {
+                    currentStopPointIndex++;
+                    if (currentStopPointIndex >= numberOfStopPoints)
+                    {
+                        agent.destination = destination;
+                        toFinalDestination = true;
+                    }
+                }
+            }
+            if (toFinalDestination && Vector3.Distance(transform.position, destination) <= arrivalRadius)
+            {
+                ResetNPC();
+            }
+        }
+    }
+
+    private bool IsShaded()
+    {
+        lightDirection = -RenderSettings.sun.transform.forward;
+        Vector3 origin = transform.position + 1.8f * Vector3.up;
+        float raycastMaxDistance = 5f;
+
+        if (Physics.Raycast(origin, lightDirection, raycastMaxDistance))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void ResetNPC()
+    {
+        gameObject.SetActive(false);
+        NPCManager.npcCounter--;
+        currentStopPointIndex = 0;
+        toFinalDestination = false;
+        heatBarImage.ResetHeatBar();
+    }
 }

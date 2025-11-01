@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building 04
       objectReference: {fileID: 0}
+    - target: {fileID: 5730179534360576549, guid: d5028c08a19d1c7438bb119ef7a30573, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -84,5 +88,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 28.896873, y: 44.2223, z: 21.309296}
-  m_Center: {x: -0.00002336502, y: -0.000038146973, z: -0.0000071525574}
+  m_Size: {x: 2889.6875, y: 4422.2305, z: 2130.9297}
+  m_Center: {x: -170.97656, y: 2211.1348, z: -16.457031}
