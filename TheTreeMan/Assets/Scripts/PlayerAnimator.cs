@@ -10,6 +10,7 @@ public class PlayerAnimator : MonoBehaviour
     private const string ZMOVE = "zMove";
     private const string XMOVE = "xMove";
     private const string PLOUGHING_STARTED = "ploughingStarted";
+    private const string SOWING_STARTED = "sowingStarted";
 
     private void Awake()
     {
@@ -20,6 +21,12 @@ public class PlayerAnimator : MonoBehaviour
     private void Start()
     {
         Player.Instance.OnPlough += Player_OnPlough;
+        Player.Instance.OnSow += Player_OnSow;
+    }
+
+    private void Player_OnSow(object sender, System.EventArgs e)
+    {
+        animator.SetTrigger(SOWING_STARTED);
     }
 
     private void Player_OnPlough(object sender, System.EventArgs e)
@@ -33,11 +40,16 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetFloat(XMOVE, inputDir.x, 0.125f, Time.deltaTime);
     }
 
-    public void PloughingEnded()
+    public void EndPloughing()
     {
         Player.Instance.SetCanMove(true);
         Player.Instance.SetMidInteraction(false);
         Player.Instance.InstantiateTreeBase();
         Player.Instance.ShoulderHoe();
+    }
+    public void EndSowing()
+    {
+        Player.Instance.SetCanMove(true);
+        Player.Instance.SetMidInteraction(false);
     }
 }

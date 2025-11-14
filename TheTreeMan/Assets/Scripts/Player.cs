@@ -15,13 +15,10 @@ public class Player : MonoBehaviour
     private float speed = 5f;
 
     public event EventHandler OnPlough;
-    //public event EventHandler OnSow;
+    public event EventHandler OnSow;
     //public event EventHandler OnWater;
 
     private bool canMove = true;
-    private bool canPlough = false;
-    //private bool canSow = false;
-    //private bool canWater = false;
 
     [SerializeField] private GameObject treeBasePrefab;
     [SerializeField] private Transform treeBaseSpawnPoint;
@@ -35,8 +32,10 @@ public class Player : MonoBehaviour
     private bool foundBase = false;
     private bool midInteraction = false;
 
-    List<TreeBase> treeBases = new List<TreeBase>();
-    TreeBase closestTreeBase;
+    private List<TreeBase> treeBases = new List<TreeBase>();
+    private TreeBase closestTreeBase;
+
+    private bool canWalkToSow = false;
 
     private void Awake()
     {
@@ -57,20 +56,6 @@ public class Player : MonoBehaviour
         {
             DecideOnInteraction();
         }
-
-        if (inputDir == Vector2.zero)
-        {
-            if (canPlough)
-            {
-                OnPlough?.Invoke(this, EventArgs.Empty);
-
-                canPlough = false;
-                canMove = false;
-                midInteraction = true;
-
-                GripHoe();
-            }
-        }
     }
 
     private void Update()
@@ -78,6 +63,18 @@ public class Player : MonoBehaviour
         if (canMove)
         {
             Move();
+        }
+
+        if (canWalkToSow)
+        {
+            transform.position = Vector3.Lerp(transform.position, closestTreeBase.transform.position, Time.deltaTime);
+            transform.LookAt(closestTreeBase.transform.position);
+            if (Vector3.Distance(transform.position, closestTreeBase.transform.position) < 0.5f)
+            {
+                canWalkToSow = false;
+                // Trigger sowing animation or logic here
+                Debug.Log("Reached tree base to sow.");
+            }
         }
     }
 
@@ -160,12 +157,23 @@ public class Player : MonoBehaviour
             }
             else
             {
-                //canSow = true;
+                OnSow?.Invoke(this, EventArgs.Empty);
+
+                canWalkToSow = true;
+                canMove = false;
+                midInteraction = true;
+
+                Debug.Log("Sowing");
             }
         }
         else
         {
-            canPlough = true;
+            OnPlough?.Invoke(this, EventArgs.Empty);
+
+            canMove = false;
+            midInteraction = true;
+
+            GripHoe();
         }
 
         treeBases.Clear();
